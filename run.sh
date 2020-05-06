@@ -1,8 +1,12 @@
 JOB=${1-"etl"}
 
-${SPARK_HOME}/bin/spark-submit \
-    --master yarn \
-    --deploy-mode cluster \
-    --py-files packages.zip \
-    --files configs/${JOB}.json \
-    jobs/${JOB}.py ${@:2}
+SPARK="${SPARK_HOME}/bin/spark-submit"
+ARGS="--master yarn \
+    --deploy-mode client \
+    --py-files packages.zip"
+
+if [ -f "configs/${JOB}.json" ]; then
+    ARGS="${CLI} --files configs/${JOB}.json"
+fi
+
+${SPARK} ${ARGS} "jobs/${JOB}.py" "${@:2}"
