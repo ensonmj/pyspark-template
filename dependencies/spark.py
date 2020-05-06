@@ -86,7 +86,7 @@ def start_spark(app_name='my_spark_app', master='local[*]', jar_packages=[],
             spark_builder.config(key, val)
 
     # create session and retrieve Spark logger object
-    spark_sess = spark_builder.getOrCreate()
+    spark_sess = spark_builder.enableHiveSupport().getOrCreate()
     spark_logger = logging.Log4j(spark_sess)
 
     # get config file if sent to cluster with --files
