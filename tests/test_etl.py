@@ -1,30 +1,30 @@
 """
-test_etl_job.py
+test_etl.py
 ~~~~~~~~~~~~~~~
 
 This module contains unit tests for the transformation steps of the ETL
-job defined in etl_job.py. It makes use of a local version of PySpark
+job defined in etl.py. It makes use of a local version of PySpark
 that is bundled with the PySpark package.
 """
+import os
 import unittest
-
 import json
 
 from pyspark.sql.functions import mean
 
 from dependencies.spark import start_spark
-from jobs.etl_job import transform_data
+from jobs.etl import transform_data
 
 
 class SparkETLTests(unittest.TestCase):
-    """Test suite for transformation in etl_job.py
+    """Test suite for transformation in etl.py
     """
 
     def setUp(self):
         """Start Spark, define config and path to test data
         """
         self.config = json.loads("""{"steps_per_floor": 21}""")
-        self.spark, *_ = start_spark()
+        self.spark, _, _ = start_spark()
         self.test_data_path = 'tests/test_data/'
 
     def tearDown(self):
@@ -43,12 +43,12 @@ class SparkETLTests(unittest.TestCase):
         input_data = (
             self.spark
             .read
-            .parquet(self.test_data_path + 'employees'))
+            .parquet('file://' + os.path.realpath(self.test_data_path + 'employees')))
 
         expected_data = (
             self.spark
             .read
-            .parquet(self.test_data_path + 'employees_report'))
+            .parquet('file://' + os.path.realpath(self.test_data_path + 'employees_report')))
 
         expected_cols = len(expected_data.columns)
         expected_rows = expected_data.count()

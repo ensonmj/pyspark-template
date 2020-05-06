@@ -92,7 +92,7 @@ def start_spark(app_name='my_spark_app', master='local[*]', jar_packages=[],
     spark_files_dir = SparkFiles.getRootDirectory()
     config_files = [filename
                     for filename in listdir(spark_files_dir)
-                    if filename.endswith('config.json')]
+                    if filename.endswith('.json')]
 
     if config_files:
         path_to_config_file = path.join(spark_files_dir, config_files[0])

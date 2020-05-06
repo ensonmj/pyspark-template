@@ -5,7 +5,11 @@
 .mypy_cache/
 .vscode/*
 .venv
+.env
 venv/*
 loaded_data/*
 derby.log
 .DS_Store
+*.swp
+log
+.ropeproject

@@ -1,5 +1,5 @@
 """
-etl_job.py
+etl.py
 ~~~~~~~~~~
 
 This Python module contains an example Apache Spark ETL job definition
@@ -9,11 +9,11 @@ command found in the '/bin' directory of all Spark distributions
 (necessary for running any Spark job, locally or otherwise). For
 example, this example script can be executed as follows,
 
-    $SPARK_HOME/bin/spark-submit \
-    --master spark://localhost:7077 \
-    --py-files packages.zip \
-    --files configs/etl_config.json \
-    jobs/etl_job.py
+    ${SPARK_HOME}/bin/spark-submit \
+        --master spark://localhost:7077 \
+        --py-files packages.zip \
+        --files configs/etl.json \
+        jobs/etl.py
 
 where packages.zip contains Python modules required by ETL job (in
 this example it contains a class to provide access to Spark's logger),
@@ -46,11 +46,11 @@ def main():
     """
     # start Spark application and get Spark session, logger and config
     spark, log, config = start_spark(
-        app_name='my_etl_job',
-        files=['configs/etl_config.json'])
+        app_name='my_etl',
+        files=['configs/etl.json'])
 
     # log that main ETL job is starting
-    log.warn('etl_job is up-and-running')
+    log.warn('job etl is up-and-running')
 
     # execute ETL pipeline
     data = extract_data(spark)
@@ -58,7 +58,7 @@ def main():
     load_data(data_transformed)
 
     # log the success and terminate Spark application
-    log.warn('test_etl_job is finished')
+    log.warn('job etl is finished')
     spark.stop()
     return None
 
