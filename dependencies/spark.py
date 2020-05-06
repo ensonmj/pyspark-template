@@ -9,6 +9,7 @@ import __main__
 
 from os import environ, listdir, path
 import json
+from py4j.java_gateway import java_import
 from pyspark import SparkFiles
 from pyspark.sql import SparkSession
 
@@ -104,3 +105,18 @@ def start_spark(app_name='my_spark_app', master='local[*]', jar_packages=[],
         config_dict = None
 
     return spark_sess, spark_logger, config_dict
+
+
+def del_hdfs_path(spark_sess, path, recursively=True):
+    """ Delete hdfs path
+    Args:
+        spark_sess: SparkSession
+        path: the path to delete
+        recursively: delete data recursively
+    """
+    sc = spark_sess.sparkContext
+    java_import(sc._jvm, "org.apache.hadoop.fs.Path")
+    hdfs_path = sc._jvm.Path(path)
+    hadoop_conf = sc._jsc.hadoopConfiguration()
+    fs = hdfs_path.getFileSystem(hadoop_conf)
+    fs.delete(hdfs_path, recursively)
