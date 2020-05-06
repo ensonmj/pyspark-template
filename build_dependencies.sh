@@ -22,6 +22,7 @@ then
     # if not then create an empty file to seed zip with
     if [ -z "$(ls -A packages)" ]
     then
+        mkdir -p packages
         touch packages/empty.txt
     fi
 
@@ -43,7 +44,7 @@ then
     
     # add local modules
     echo '... adding all modules from local utils package'
-    zip -ru9 packages.zip dependencies -x dependencies/__pycache__/\*
+    zip -ru9 packages.zip dependencies -x dependencies/__pycache__/\* -x \*.swp
 
     exit 0
 else
