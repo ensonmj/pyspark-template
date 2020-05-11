@@ -81,6 +81,17 @@ def start_spark(app_name='my_spark_app', master='local[*]', jar_packages=[],
         spark_files = ','.join(list(files))
         spark_builder.config('spark.files', spark_files)
 
+    # general config
+    spark_builder.config("spark.driver.memory", "10g")
+    spark_builder.config("spark.driver.cores", "4")
+    spark_builder.config("spark.driver.extraJavaOptions",
+                        "-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8 -XX:+UseG1GC")
+    spark_builder.config("spark.executor.extraJavaOptions",
+                        "-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8 -XX:+UseG1GC")
+    spark_builder.config("spark.yarn.maxAppAttempts", 1)
+    spark_builder.config("spark.blacklist.enabled", "true")
+    spark_builder.config("spark.network.timeout", 300)
+
     # add other config params
     for key, val in spark_config.items():
         spark_builder.config(key, val)
