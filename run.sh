@@ -2,7 +2,7 @@ JOB=${1-"etl"}
 
 SPARK="${SPARK_HOME}/bin/spark-submit"
 ARGS="--master yarn \
-    --deploy-mode client \
+    --deploy-mode cluster \
     --py-files packages.zip"
 
 if [ -f "configs/${JOB}.json" ]; then

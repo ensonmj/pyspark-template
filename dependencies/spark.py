@@ -26,7 +26,7 @@ def start_spark(app_name='my_spark_app', master='local[*]', jar_packages=[],
     All other arguments exist solely for testing the script from within
     an interactive Python console.
 
-    This function also looks for a file ending in 'config.json' that
+    This function also looks for a file ending in '.json' that
     can be sent with the Spark job. If it is found, it is opened,
     the contents parsed (assuming it contains valid JSON for the ETL job
     configuration) into a dict of ETL job configuration parameters,
@@ -81,9 +81,9 @@ def start_spark(app_name='my_spark_app', master='local[*]', jar_packages=[],
         spark_files = ','.join(list(files))
         spark_builder.config('spark.files', spark_files)
 
-        # add other config params
-        for key, val in spark_config.items():
-            spark_builder.config(key, val)
+    # add other config params
+    for key, val in spark_config.items():
+        spark_builder.config(key, val)
 
     # create session and retrieve Spark logger object
     spark_sess = spark_builder.enableHiveSupport().getOrCreate()
