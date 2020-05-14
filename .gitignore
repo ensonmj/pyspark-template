@@ -13,3 +13,5 @@ derby.log
 *.swp
 log
 .ropeproject
+*.swo
+*.crc
